@@ -1,3 +1,4 @@
 *.hist
 *.o
 *.x
+.vscode

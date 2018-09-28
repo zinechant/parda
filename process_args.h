@@ -17,6 +17,7 @@ extern char inputFileName[200];
 extern long lines;
 extern int threads;
 extern int buffersize;
+extern int process_to_cacheblock_address;
 
 int process_args(int argc,char **argv);
 #endif

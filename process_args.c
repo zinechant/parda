@@ -8,6 +8,7 @@ int threads = 1;
 char inputFileName[200] = "d.in";
 long lines = -1;
 int buffersize = 10000;
+int process_to_cacheblock_address = 0;
 
 int process_args(int argc, char **argv) {
   int c;
@@ -24,6 +25,7 @@ int process_args(int argc, char **argv) {
       {"lines",  required_argument, 0, 'l'},
       {"threads",  required_argument, 0, 't'},
       {"enable-seperate",   no_argument, 0, 's'},
+      {"process_to_cacheblock_address", required_argument, 0, 'b'},
       {"help",   no_argument, 0, 'h'},
       {0, 0, 0, 0}
     };
@@ -74,6 +76,10 @@ int process_args(int argc, char **argv) {
       case 't':
         threads = atol(optarg);
         break;
+      case 'b':
+        process_to_cacheblock_address = atol(optarg);
+        break;
+
       case 'h':
         printf("case 1: seperate file\n");
         printf("./parda.x --enable-seperate --input=normal_137979.trace --lines=137979 --threads=4\n");

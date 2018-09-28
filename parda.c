@@ -1,5 +1,6 @@
 #include "parda.h"
 #include "narray.h"
+#include "stdint.h"
 
 #include<omp.h>
 
@@ -247,10 +248,16 @@ void parda_input_with_binaryfilepointer(FILE* fp, program_data_t* pdt, long begi
   void** buffer = (void**)malloc(buffersize * sizeof(void*));
   for (t = begin; t <= end; t += count) {
     count = fread(buffer, sizeof(void*), buffersize, fp);
-    for(i=0; i < count; i++) {
-      sprintf(input, "%p", buffer[i]);
-      DEBUG(printf("%s %d\n",input,i+t);)
-      process_one_access(input,pdt,i+t);
+    for (i = 0; i < count; i++) {
+      if (process_to_cacheblock_address) {
+        sprintf(input, "%p",
+                (void*)((uintptr_t)buffer[i] >> process_to_cacheblock_address));
+      } else {
+        sprintf(input, "%p", buffer[i]);
+      }
+
+      DEBUG(printf("%s %d\n", input, i + t);)
+      process_one_access(input, pdt, i + t);
     }
   }
 }
