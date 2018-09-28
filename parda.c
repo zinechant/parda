@@ -267,6 +267,15 @@ void parda_input_with_textfilepointer(FILE* fp, program_data_t* pdt, long begin,
   long i;
   for(i = begin; i <= end; i++) {
     assert(fscanf(fp, "%s", input) != EOF);
+
+    if (process_to_cacheblock_address) {
+      uintptr_t addr = 0;
+      sscanf(input, "%lx", &addr);
+      addr >>= process_to_cacheblock_address;
+      input[0] = '\0';
+      sprintf(input, "%p", (void *)addr);
+    }
+
     DEBUG(printf("%s %d\n", input, i);)
     process_one_access(input, pdt, i);
   }
