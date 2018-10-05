@@ -108,6 +108,13 @@ int process_args(int argc, char **argv) {
       printf ("%s ", argv[optind++]);
     putchar ('\n');
   }
-  if(lines == -1) printf("total lines number must be provided\n"),abort();
+  if (lines == -1) {
+    if (is_binary) {
+      printf("Running in spinning reading mode without #lines specified\n");
+    } else {
+      printf("no line nubmer mode is only supported when binary");
+    }
+  }
+  // if(lines == -1) printf("total lines number must be provided\n"),abort();
   return 0;
 }

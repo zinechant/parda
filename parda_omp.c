@@ -36,7 +36,7 @@ program_data_t parda_omp_input_with_filename(char inputFileName[],
     program_data_t* pdt_a, long begin, long end, int pid, int psize) {
     int nthreads = threads;
     long lines = end + 1 - begin;
-    FILE* fpa[8];
+    FILE* fpa[8];                                                   // It seems the max_num_threads is hardcoded as 8 here.
     parda_omp_openfile(inputFileName, pid, nthreads, psize, fpa);
 #pragma omp parallel default(none) firstprivate(begin, pid, psize, nthreads, lines, is_binary) shared(pdt_a, fpa)
     {

@@ -243,11 +243,12 @@ void parda_input_with_filename(char* inFileName, program_data_t* pdt, long begin
 
 void parda_input_with_binaryfilepointer(FILE* fp, program_data_t* pdt, long begin,long end) {
   HKEY input;
-  long t, i;
+  long t = 0, i = 0;
   long count;
   void** buffer = (void**)malloc(buffersize * sizeof(void*));
-  for (t = begin; t <= end; t += count) {
+  while (1) {
     count = fread(buffer, sizeof(void*), buffersize, fp);
+    if (count == 0) break;
     for (i = 0; i < count; i++) {
       if (process_to_cacheblock_address) {
         sprintf(input, "%p",
@@ -259,6 +260,7 @@ void parda_input_with_binaryfilepointer(FILE* fp, program_data_t* pdt, long begi
       DEBUG(printf("%s %d\n", input, i + t);)
       process_one_access(input, pdt, i + t);
     }
+    t += count;
   }
 }
 
